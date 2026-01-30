@@ -22,16 +22,48 @@ navItems.forEach(item => {
   });
 });
 
-// Navbar Scroll Effect
-window.addEventListener('scroll', () => {
+// Header Scroll Effect & Reveal Animation
+let isHeaderScrolled = false;
+const revealElements = document.querySelectorAll('.reveal');
+
+const handleScroll = () => {
+  // Header background logic
   if (window.scrollY > 50) {
-    header.style.background = 'rgba(15, 15, 18, 0.95)';
-    header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.3)';
+    if (!isHeaderScrolled) {
+      header.classList.add('scrolled');
+      isHeaderScrolled = true;
+    }
   } else {
-    header.style.background = 'rgba(15, 15, 18, 0.85)';
-    header.style.boxShadow = 'none';
+    if (isHeaderScrolled) {
+      header.classList.remove('scrolled');
+      isHeaderScrolled = false;
+    }
   }
+
+  // Scroll Reveal logic
+  const windowHeight = window.innerHeight;
+  const elementVisible = 100;
+
+  revealElements.forEach((reveal) => {
+    const elementTop = reveal.getBoundingClientRect().top;
+    if (elementTop < windowHeight - elementVisible) {
+      reveal.classList.add('active');
+    }
+  });
+};
+
+// Throttle scroll event for performance
+let throttleTimer;
+window.addEventListener('scroll', () => {
+  if (throttleTimer) return;
+  throttleTimer = setTimeout(() => {
+    handleScroll();
+    throttleTimer = null;
+  }, 10);
 });
+
+// Run once on load
+handleScroll();
 
 // Typing Effect
 const textArray = ["FullStack Developer", "UI/UX Enthusiast", "Creative Coder",];
@@ -73,20 +105,4 @@ document.addEventListener("DOMContentLoaded", function () {
   if (textArray.length) setTimeout(type, newTextDelay + 250);
 });
 
-// Scroll Reveal Animation
-const revealElements = document.querySelectorAll('.reveal');
-
-const revealOnScroll = () => {
-  const windowHeight = window.innerHeight;
-  const elementVisible = 150;
-
-  revealElements.forEach((reveal) => {
-    const elementTop = reveal.getBoundingClientRect().top;
-    if (elementTop < windowHeight - elementVisible) {
-      reveal.classList.add('active');
-    }
-  });
-};
-
-window.addEventListener('scroll', revealOnScroll);
-revealOnScroll(); // Trigger once on load
+// Removed redundant reveal logic (now handled in handleScroll)
