@@ -66,7 +66,7 @@ window.addEventListener('scroll', () => {
 handleScroll();
 
 // Typing Effect
-const textArray = ["FullStack Developer", "UI/UX Enthusiast", "Vibe Coding", "Exploring AI Tools"];
+const textArray = ["FullStack Developer", "UI/UX Enthusiast", "Problem Solver", "Tech Enthusiast"];
 const typingDelay = 100;
 const erasingDelay = 60;
 const newTextDelay = 2000;
